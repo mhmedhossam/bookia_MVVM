@@ -23,14 +23,12 @@ class PassChanged extends StatefulWidget {
 class _PassChangedState extends State<PassChanged> {
   @override
   void initState() {
-    print("taken 5 ${widget.token}");
     context.read<Authtcubit>().passchanged(widget.token ?? "");
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    var cubit = context.read<Authtcubit>();
     return Scaffold(
       body: BlocConsumer<Authtcubit, Authstates>(
         listener: (context, state) {

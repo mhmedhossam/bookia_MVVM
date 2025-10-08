@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:bookia/core/constants/navigation.dart';
 import 'package:bookia/core/constants/routes.dart';
 import 'package:bookia/core/utils/app_colors.dart';
@@ -8,7 +6,6 @@ import 'package:bookia/core/widgets/custom_back_button.dart';
 import 'package:bookia/core/widgets/custom_text_field.dart';
 import 'package:bookia/core/widgets/dialog.dart';
 import 'package:bookia/core/widgets/main_button.dart';
-import 'package:bookia/features/auth/data/models/request/auth_data.dart';
 import 'package:bookia/features/auth/presentation/cubit/authstates.dart';
 import 'package:bookia/features/auth/presentation/cubit/authtcubit.dart';
 import 'package:bookia/features/auth/presentation/widgets/custom_navigation_bar_text_button.dart';

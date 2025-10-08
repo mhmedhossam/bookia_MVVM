@@ -31,8 +31,6 @@ class CreateNewPassword extends StatelessWidget {
           if (state is Authloading) {
             showloadingDialog(context);
           } else if (state is AuthSuccessed) {
-            print("token 3  ${state.token}");
-
             context.pop();
             Navigation.pushNamedandRemoveUntilTo(
               context,

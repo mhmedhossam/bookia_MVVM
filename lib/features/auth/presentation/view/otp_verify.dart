@@ -71,7 +71,6 @@ class OtpVerify extends StatelessWidget {
                     },
                     controller: cubit.otpController,
                     length: 6,
-                    onCompleted: (pin) => print(pin),
                     focusedPinTheme: PinTheme(
                       width: 80,
                       height: 60,

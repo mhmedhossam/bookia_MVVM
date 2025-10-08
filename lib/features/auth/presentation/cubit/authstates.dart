@@ -7,9 +7,7 @@ class Authloading extends Authstates {}
 class AuthSuccessed extends Authstates {
   String? token;
 
-  AuthSuccessed({this.token}) {
-    print("token 2  $token");
-  }
+  AuthSuccessed({this.token}) {}
 }
 
 class AuthFailure extends Authstates {

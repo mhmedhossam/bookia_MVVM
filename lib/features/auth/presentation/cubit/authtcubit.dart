@@ -88,7 +88,6 @@ class Authtcubit extends Cubit<Authstates> {
       emit(AuthFailure(errorMessage: res.message!));
     } else {
       emit(AuthSuccessed(token: res.data!.token));
-      print("token 1  ${res.data!.token}");
     }
   }
 

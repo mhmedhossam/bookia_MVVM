@@ -79,7 +79,6 @@ class Routes {
         path: passChangedScreen,
         builder: (context, state) {
           final token = state.extra is String ? state.extra as String : "";
-          print("token 4  $token");
 
           return BlocProvider(
             create: (context) => Authtcubit(),

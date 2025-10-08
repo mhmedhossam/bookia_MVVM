@@ -47,7 +47,6 @@ class AuthRepo {
   static Future<AuthResponse> setNewPassword(
     AuthDataRequesr authDataRequesr,
   ) async {
-    print(authDataRequesr.otp);
     var data = await DioProvider.post(
       AuthEndpoints.setNewPassword,
       data: authDataRequesr.toJson(),
