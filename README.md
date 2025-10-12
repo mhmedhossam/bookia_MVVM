@@ -1,16 +1,31 @@
-# bookia
+📚 Bookia App
 
-A new Flutter project.
+Bookia is a Flutter application for browsing and purchasing books online, built with MVVM Architecture and following Clean Code principles.
 
-## Getting Started
+🧠 Architecture
 
-This project is a starting point for a Flutter application.
+MVVM (Model - View - ViewModel) architecture
 
-A few resources to get you started if this is your first Flutter project:
+Cubit (Bloc) state management
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Repository pattern for clean data handling
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+API integration with full CRUD operations (GET, POST, ADD, DELETE)
+
+⚙️ Features
+
+🪪 Authentication system (Login, Register, Logout)
+
+🔐 OTP verification
+
+🔄 Forgot password flow
+
+📚 Book browsing and purchasing
+
+🖼️ Slider for featured books
+
+💡 Reusable widgets for scalability
+
+🧹 Clean code and well-organized folder structure
+
+⚡ High performance and responsive UI
