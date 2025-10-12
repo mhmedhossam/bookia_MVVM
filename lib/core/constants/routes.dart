@@ -5,6 +5,7 @@ import 'package:bookia/features/auth/presentation/view/login_screen.dart';
 import 'package:bookia/features/auth/presentation/view/otp_verify.dart';
 import 'package:bookia/features/auth/presentation/view/pass_changed.dart';
 import 'package:bookia/features/auth/presentation/view/register_screen.dart';
+import 'package:bookia/features/home/data/models/response/all_product_model/all_product_model/product.dart';
 import 'package:bookia/features/home/presentation/cubit/home_cubit.dart';
 import 'package:bookia/features/home/presentation/view/details.dart';
 import 'package:bookia/features/home/presentation/view/home_screen.dart';
@@ -30,7 +31,13 @@ class Routes {
     initialLocation: splashScreen,
     routes: [
       GoRoute(path: splashScreen, builder: (context, state) => SplashScreen()),
-      GoRoute(path: detailsScreen, builder: (context, state) => Details()),
+      GoRoute(
+        path: detailsScreen,
+        builder: (context, state) {
+          Product product = state.extra as Product;
+          return Details(product: product);
+        },
+      ),
       GoRoute(path: homeScreen, builder: (context, state) => HomeScreen()),
       GoRoute(
         path: mainAppScreen,

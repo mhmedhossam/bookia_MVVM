@@ -9,10 +9,12 @@ class MainButton extends StatelessWidget {
   final Color bgColor;
   final Color textColor;
   final Color? borderColor;
+  double? size;
 
-  const MainButton({
+  MainButton({
     super.key,
     required this.onPressed,
+    this.size,
     required this.text,
     this.width = double.infinity,
     this.height = 55,
@@ -35,7 +37,10 @@ class MainButton extends StatelessWidget {
       ),
       child: Text(
         text,
-        style: TextStyles.textStyle15.copyWith(color: textColor),
+        style: TextStyles.textStyle15.copyWith(
+          color: textColor,
+          fontSize: size ?? 15,
+        ),
       ),
     );
   }

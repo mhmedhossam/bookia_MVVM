@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bookia/core/constants/app_images.dart';
 import 'package:bookia/core/constants/navigation.dart';
 import 'package:bookia/core/constants/routes.dart';
+import 'package:bookia/core/services/local/shared_pref.dart';
 import 'package:bookia/core/utils/app_colors.dart';
 import 'package:bookia/core/utils/text_styles.dart';
 import 'package:flutter/material.dart';
@@ -20,10 +21,19 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    Future.delayed(Duration(seconds: 4), () {
-      // ignore: use_build_context_synchronously
-      Navigation.pushReplacementNamed(context, Routes.welcomeScreen);
-    });
+    String? token = SharedPref.getToken();
+    if (token != null) {
+      Future.delayed(Duration(seconds: 4), () {
+        // ignore: use_build_context_synchronously
+        Navigation.pushReplacementNamed(context, Routes.mainAppScreen);
+      });
+    } else {
+      Future.delayed(Duration(seconds: 4), () {
+        // ignore: use_build_context_synchronously
+        Navigation.pushReplacementNamed(context, Routes.welcomeScreen);
+      });
+    }
+
     super.initState();
   }
 

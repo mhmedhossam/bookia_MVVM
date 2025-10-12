@@ -1,4 +1,5 @@
-import 'package:bookia/core/services/dio_provider.dart';
+import 'package:bookia/core/services/api/dio_provider.dart';
+import 'package:bookia/core/services/local/shared_pref.dart';
 import 'package:bookia/features/auth/data/models/request/auth_data.dart';
 import 'package:bookia/features/auth/data/models/response/auth_response/auth_response.dart';
 import 'package:bookia/features/auth/data/models/response/forget_password/forget_password.dart';
@@ -19,7 +20,9 @@ class AuthRepo {
       data: authDataRequesr.toJson(),
     );
 
-    return AuthResponse.fromjson(data);
+    var succedData = AuthResponse.fromjson(data);
+    SharedPref.setToken(succedData.data!.token);
+    return succedData;
   }
 
   static Future<ForgetPassword> forgetPassword(

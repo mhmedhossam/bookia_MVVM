@@ -1,3 +1,5 @@
+import 'package:bookia/core/constants/navigation.dart';
+import 'package:bookia/core/constants/routes.dart';
 import 'package:bookia/core/utils/app_colors.dart';
 import 'package:bookia/core/utils/text_styles.dart';
 import 'package:bookia/core/widgets/main_button.dart';
@@ -57,19 +59,10 @@ class BookCard extends StatelessWidget {
                   text: "buy",
                   textColor: AppColors.backgroundColor,
                   onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return Dialog(
-                          clipBehavior: Clip.antiAlias,
-
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-
-                          child: Details(product: product),
-                        );
-                      },
+                    Navigation.pushNamedTo(
+                      context,
+                      Routes.detailsScreen,
+                      product,
                     );
                   },
                 ),

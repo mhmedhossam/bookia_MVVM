@@ -1,16 +1,19 @@
 import 'package:bookia/core/constants/app_fonts.dart';
 import 'package:bookia/core/constants/routes.dart';
-import 'package:bookia/core/services/dio_provider.dart';
+import 'package:bookia/core/services/api/dio_provider.dart';
+import 'package:bookia/core/services/local/shared_pref.dart';
 import 'package:bookia/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   DioProvider.init();
-  runApp(Bookly());
+  await SharedPref.init();
+  runApp(Bookia());
 }
 
-class Bookly extends StatelessWidget {
-  const Bookly({super.key});
+class Bookia extends StatelessWidget {
+  const Bookia({super.key});
 
   @override
   Widget build(BuildContext context) {

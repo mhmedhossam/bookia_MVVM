@@ -7,6 +7,7 @@ import 'package:bookia/features/home/data/models/response/all_product_model/all_
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
+import 'package:html/parser.dart' as html_parser;
 
 class Details extends StatelessWidget {
   final Product? product;
@@ -15,28 +16,46 @@ class Details extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   automaticallyImplyLeading: false,
-      //   title: CustomBackButton(),
-      //   actions: [
-      //     IconButton(
-      //       onPressed: () {},
-      //       icon: SvgPicture.asset(AppImages.bookmarkSvg),
-      //     ),
-      //   ],
-      // ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.only(bottom: 30, left: 15, right: 15),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text("\$${product!.price!}", style: TextStyles.textStyle24),
+            MainButton(
+              onPressed: () {},
+              bgColor: AppColors.darkColor,
+              height: 56,
+              width: 212,
+
+              text: "Add to Cart",
+              size: 20,
+              textColor: AppColors.backgroundColor,
+            ),
+          ],
+        ),
+      ),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: CustomBackButton(),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: SvgPicture.asset(AppImages.bookmarkSvg),
+          ),
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(22),
         child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 50),
+          child: Center(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(5),
+                  borderRadius: BorderRadius.circular(10),
                   clipBehavior: Clip.antiAlias,
-
                   child: Image.network(
                     product!.image!,
                     height: 270,
@@ -45,32 +64,31 @@ class Details extends StatelessWidget {
                   ),
                 ),
                 Gap(20),
-                Padding(
-                  padding: EdgeInsetsGeometry.only(left: 30),
+                SizedBox(
+                  width: 247,
+                  height: 78,
                   child: Text(
                     product!.name!,
                     style: TextStyles.textStyle30,
-                    maxLines: 1,
+                    maxLines: 2,
+
+                    textAlign: TextAlign.center,
                   ),
                 ),
-                Text(product!.category!, style: TextStyles.textStyle14),
-                Text(product!.description!, style: TextStyles.textStyle14),
-                Gap(15),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(product!.price!, style: TextStyles.textStyle16),
-                    MainButton(
-                      onPressed: () {},
-                      bgColor: AppColors.darkColor,
-                      height: 40,
-                      width: 150,
-
-                      text: "Add to Cart",
-                      textColor: AppColors.backgroundColor,
-                    ),
-                  ],
+                Gap(5),
+                Text(
+                  product!.category!,
+                  style: TextStyles.textStyle14.copyWith(
+                    color: AppColors.primaryColor,
+                  ),
                 ),
+                Text(
+                  html_parser.parse(product!.description).body!.text,
+                  style: TextStyles.textStyle14,
+                ),
+                Gap(
+                  MediaQuery.of(context).size.width * 0.19,
+                ), // هنا الى اقصد عليها
               ],
             ),
           ),
