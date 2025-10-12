@@ -42,7 +42,11 @@ class LoginScreen extends StatelessWidget {
             showErrorDialog(context, state.errorMessage);
           } else if (state is AuthSuccessed) {
             Navigation.pop(context);
-            Navigation.pushNamedTo(context, Routes.homeScreen);
+            Navigation.pushNamedandRemoveUntilTo(
+              context,
+              Routes.mainAppScreen,
+              state.token,
+            );
           }
         },
         child: _loginBody(context),

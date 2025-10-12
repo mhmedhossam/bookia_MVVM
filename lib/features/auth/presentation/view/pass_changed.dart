@@ -23,8 +23,12 @@ class PassChanged extends StatefulWidget {
 class _PassChangedState extends State<PassChanged> {
   @override
   void initState() {
-    context.read<Authtcubit>().passchanged(widget.token ?? "");
+    passfn();
     super.initState();
+  }
+
+  void passfn() async {
+    await context.read<Authtcubit>().passchanged(widget.token ?? "");
   }
 
   @override
@@ -32,10 +36,12 @@ class _PassChangedState extends State<PassChanged> {
     return Scaffold(
       body: BlocConsumer<Authtcubit, Authstates>(
         listener: (context, state) {
-          if (state is Authloading) {
-            showloadingDialog(context);
-          } else if (state is AuthFailure) {
+          if (state is AuthFailure) {
             showErrorDialog(context, state.errorMessage);
+          } else {
+            if (Navigator.canPop(context)) {
+              Navigation.pop(context);
+            }
           }
         },
         builder: (context, state) {
@@ -87,8 +93,11 @@ class _PassChangedState extends State<PassChanged> {
                 ],
               ),
             );
+          } else if (state is AuthFailure) {
+            return Text("Error please try again");
+          } else {
+            return Center(child: CircularProgressIndicator());
           }
-          return Text("hamada");
         },
       ),
     );

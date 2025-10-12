@@ -43,7 +43,7 @@ class Authtcubit extends Cubit<Authstates> {
     if (res.status != 200) {
       emit(AuthFailure(errorMessage: res.message!));
     } else {
-      emit(AuthSuccessed());
+      emit(AuthSuccessed(token: res.data!.token));
     }
   }
 
@@ -97,7 +97,7 @@ class Authtcubit extends Cubit<Authstates> {
     if (res.status != 200) {
       emit(AuthFailure(errorMessage: res.message!));
     } else {
-      emit(AuthSuccessed()); // ايه ده
+      emit(AuthSuccessed());
     }
   }
 }

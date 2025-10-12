@@ -1,10 +1,10 @@
-import 'package:bookia/features/auth/data/repo/auth_endpoints.dart';
+import 'package:bookia/core/services/main_endpoints.dart';
 import 'package:dio/dio.dart';
 
 class DioProvider {
   static late Dio dio;
   static init() {
-    dio = Dio(BaseOptions(baseUrl: AuthEndpoints.baseUrl));
+    dio = Dio(BaseOptions(baseUrl: MainEndpoints.baseUrl));
   }
 
   static Future<Map<String, dynamic>> post(

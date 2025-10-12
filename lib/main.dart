@@ -18,6 +18,14 @@ class Bookly extends StatelessWidget {
       debugShowCheckedModeBanner: false,
 
       theme: ThemeData(
+        bottomNavigationBarTheme: BottomNavigationBarThemeData(
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: AppColors.backgroundColor,
+          selectedItemColor: AppColors.primaryColor,
+          unselectedItemColor: AppColors.darkColor,
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+        ),
         textButtonTheme: TextButtonThemeData(
           style: TextButton.styleFrom(foregroundColor: AppColors.darkGreyColor),
         ),

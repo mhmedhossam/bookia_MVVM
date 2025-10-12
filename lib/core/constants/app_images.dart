@@ -17,4 +17,5 @@ class AppImages {
   static const String bookHeader = "assets/images/Rectangle 13.png";
   static const String blackBook = "assets/images/Rectangle 22.png";
   static const String welcome = "assets/images/welcome.png";
+  static const String cartSvg = "assets/icons/cart.svg";
 }

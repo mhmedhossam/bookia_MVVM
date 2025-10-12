@@ -5,7 +5,10 @@ import 'package:bookia/features/auth/presentation/view/login_screen.dart';
 import 'package:bookia/features/auth/presentation/view/otp_verify.dart';
 import 'package:bookia/features/auth/presentation/view/pass_changed.dart';
 import 'package:bookia/features/auth/presentation/view/register_screen.dart';
+import 'package:bookia/features/home/presentation/cubit/home_cubit.dart';
+import 'package:bookia/features/home/presentation/view/details.dart';
 import 'package:bookia/features/home/presentation/view/home_screen.dart';
+import 'package:bookia/features/main/main_app_screen.dart';
 import 'package:bookia/features/splash/splash_screen.dart';
 import 'package:bookia/features/welcome/welcome_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,11 +24,27 @@ class Routes {
   static String createNewPassScreen = "/create_new_pass_screen";
   static String passChangedScreen = "/pass_changed_screen";
   static String homeScreen = "/home_screen";
+  static String mainAppScreen = "/main_app_screen";
+  static String detailsScreen = "/details_screen";
   static var routes = GoRouter(
     initialLocation: splashScreen,
     routes: [
       GoRoute(path: splashScreen, builder: (context, state) => SplashScreen()),
+      GoRoute(path: detailsScreen, builder: (context, state) => Details()),
       GoRoute(path: homeScreen, builder: (context, state) => HomeScreen()),
+      GoRoute(
+        path: mainAppScreen,
+        builder: (context, state) {
+          final token = state.extra as String?; // token is important
+          return BlocProvider(
+            create: (context) => HomeCubit(token: token)
+              ..getslider()
+              ..getBestSeller(),
+
+            child: MainAppScreen(),
+          );
+        },
+      ),
 
       GoRoute(
         path: createNewPassScreen,
