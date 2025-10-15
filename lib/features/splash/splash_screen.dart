@@ -22,17 +22,13 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     String? token = SharedPref.getToken();
-    if (token != null) {
-      Future.delayed(Duration(seconds: 4), () {
-        // ignore: use_build_context_synchronously
+    Future.delayed(Duration(seconds: 4), () {
+      if (token != null) {
         Navigation.pushReplacementNamed(context, Routes.mainAppScreen);
-      });
-    } else {
-      Future.delayed(Duration(seconds: 4), () {
-        // ignore: use_build_context_synchronously
+      } else {
         Navigation.pushReplacementNamed(context, Routes.welcomeScreen);
-      });
-    }
+      }
+    });
 
     super.initState();
   }

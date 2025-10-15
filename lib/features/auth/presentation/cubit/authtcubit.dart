@@ -14,6 +14,8 @@ class Authtcubit extends Cubit<Authstates> {
   Authtcubit() : super(InitialState());
 
   register() async {
+    if (isClosed) return;
+
     emit(Authloading());
     var res = await AuthRepo.register(
       AuthDataRequesr(
@@ -23,6 +25,8 @@ class Authtcubit extends Cubit<Authstates> {
         name: userNameController.text,
       ),
     );
+    if (isClosed) return;
+
     if (res.status != 201) {
       emit(AuthFailure(errorMessage: res.message!));
     } else {
@@ -30,7 +34,9 @@ class Authtcubit extends Cubit<Authstates> {
     }
   }
 
-  Login() async {
+  login() async {
+    if (isClosed) return;
+
     emit(Authloading());
 
     var res = await AuthRepo.login(
@@ -39,6 +45,7 @@ class Authtcubit extends Cubit<Authstates> {
         password: passwordController.text,
       ),
     );
+    if (isClosed) return;
 
     if (res.status != 200) {
       emit(AuthFailure(errorMessage: res.message!));
@@ -48,11 +55,14 @@ class Authtcubit extends Cubit<Authstates> {
   }
 
   fogetPassword() async {
+    if (isClosed) return;
+
     emit(Authloading());
 
     var res = await AuthRepo.forgetPassword(
       AuthDataRequesr(email: emailController.text),
     );
+    if (isClosed) return;
 
     if (res.status != 200) {
       emit(AuthFailure(errorMessage: res.message!));
@@ -62,11 +72,14 @@ class Authtcubit extends Cubit<Authstates> {
   }
 
   otpVerfyy(String email) async {
+    if (isClosed) return;
+
     emit(Authloading());
 
     var res = await AuthRepo.otpVerifyy(
       AuthDataRequesr(email: email, otp: otpController.text),
     );
+    if (isClosed) return;
 
     if (res.status != 200) {
       emit(AuthFailure(errorMessage: res.message!));
@@ -76,6 +89,8 @@ class Authtcubit extends Cubit<Authstates> {
   }
 
   setNewPassword(String otp) async {
+    if (isClosed) return;
+
     emit(Authloading());
     var res = await AuthRepo.setNewPassword(
       AuthDataRequesr(
@@ -84,6 +99,8 @@ class Authtcubit extends Cubit<Authstates> {
         newconfirmPass: confirmpasswordController.text,
       ),
     );
+    if (isClosed) return;
+
     if (res.status != 200) {
       emit(AuthFailure(errorMessage: res.message!));
     } else {
@@ -92,8 +109,12 @@ class Authtcubit extends Cubit<Authstates> {
   }
 
   passchanged(String token) async {
+    if (isClosed) return;
+
     emit(Authloading());
     var res = await AuthRepo.passwordChanged(token);
+    if (isClosed) return;
+
     if (res.status != 200) {
       emit(AuthFailure(errorMessage: res.message!));
     } else {

@@ -9,6 +9,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   DioProvider.init();
   await SharedPref.init();
+
   runApp(Bookia());
 }
 

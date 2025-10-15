@@ -44,7 +44,7 @@ class ForgetPassword extends StatelessWidget {
             showloadingDialog(context);
           } else if (state is AuthFailure) {
             Navigation.pop(context);
-            showErrorDialog(context, state.errorMessage);
+            showMyDialog(context, state.errorMessage);
           }
         },
         child: SingleChildScrollView(

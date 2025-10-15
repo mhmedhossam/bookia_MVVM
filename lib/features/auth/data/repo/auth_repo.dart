@@ -21,7 +21,7 @@ class AuthRepo {
     );
 
     var succedData = AuthResponse.fromjson(data);
-    SharedPref.setToken(succedData.data!.token);
+    SharedPref.setToken(succedData.data?.token);
     return succedData;
   }
 

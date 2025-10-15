@@ -51,17 +51,19 @@ class _HomeSliderState extends State<HomeSlider> {
                   ),
         ),
         Gap(20),
-        AnimatedSmoothIndicator(
-          activeIndex: activeIndex,
-          count: widget.sliders.length,
-          effect: ExpandingDotsEffect(
-            dotHeight: 7,
-            dotWidth: 7,
-            dotColor: AppColors.greyColor,
-            activeDotColor: AppColors.primaryColor,
-            expansionFactor: 5,
-          ),
-        ),
+        widget.sliders.isNotEmpty
+            ? AnimatedSmoothIndicator(
+                activeIndex: activeIndex,
+                count: widget.sliders.length,
+                effect: ExpandingDotsEffect(
+                  dotHeight: 7,
+                  dotWidth: 7,
+                  dotColor: AppColors.greyColor,
+                  activeDotColor: AppColors.primaryColor,
+                  expansionFactor: 5,
+                ),
+              )
+            : SizedBox.shrink(),
       ],
     );
   }

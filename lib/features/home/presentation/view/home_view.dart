@@ -1,12 +1,20 @@
 import 'package:bookia/core/constants/app_images.dart';
+import 'package:bookia/core/constants/navigation.dart';
+import 'package:bookia/core/constants/routes.dart';
+import 'package:bookia/core/services/local/shared_pref.dart';
+import 'package:bookia/core/utils/text_styles.dart';
+import 'package:bookia/features/home/data/models/response/all_product_model/all_product_model/product.dart';
 import 'package:bookia/features/home/presentation/cubit/home_cubit.dart';
 import 'package:bookia/features/home/presentation/cubit/home_states.dart';
+import 'package:bookia/features/home/presentation/widgets/book_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
+import 'package:lottie/lottie.dart';
 
-import '../widgets/best_seller_builder.dart';
+import '../widgets/best_product_builder.dart';
+import '../widgets/all_product.dart';
 import '../widgets/home_slider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -23,7 +31,17 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigation.pushNamedTo(context, Routes.searchScreen);
+              //for logout not here
+              // SharedPref.detete("token");
+              // if (SharedPref.getToken() == null) {
+              //   Navigation.pushNamedandRemoveUntilTo(
+              //     context,
+              //     Routes.welcomeScreen,
+              //   );
+              // }
+            },
             icon: SvgPicture.asset(AppImages.searchNormalSvg),
           ),
         ],
@@ -39,20 +57,26 @@ class _HomeScreenState extends State<HomeScreen> {
 
           if (state is HomeSucceed) {
             return Padding(
-              padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+              padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
               child: SingleChildScrollView(
                 child: Column(
                   children: [
                     HomeSlider(sliders: cubit.sliders),
 
                     Gap(20),
-                    BestSellerBuilder(productList: cubit.products),
+                    BestProductBuilder(productList: cubit.bestProducts),
+                    Gap(20),
+
+                    AllProductBuilder(productList: cubit.products),
                   ],
                 ),
               ),
             );
+          } else if (state is HomeFailure) {
+            return Center(child: Text(state.message ?? ""));
+          } else {
+            return Center(child: Lottie.asset('assets/images/Open book.json'));
           }
-          return Center(child: CircularProgressIndicator());
         },
       ),
     );

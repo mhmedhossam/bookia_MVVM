@@ -39,7 +39,7 @@ class LoginScreen extends StatelessWidget {
           } else if (state is AuthFailure) {
             Navigation.pop(context);
 
-            showErrorDialog(context, state.errorMessage);
+            showMyDialog(context, state.errorMessage);
           } else if (state is AuthSuccessed) {
             Navigation.pop(context);
             Navigation.pushNamedandRemoveUntilTo(
@@ -116,7 +116,7 @@ _loginBody(BuildContext context) {
             MainButton(
               onPressed: () {
                 if (cubit.formkey.currentState!.validate()) {
-                  context.read<Authtcubit>().Login();
+                  context.read<Authtcubit>().login();
                 }
               },
               text: "Login",

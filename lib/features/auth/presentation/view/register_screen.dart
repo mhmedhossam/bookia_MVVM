@@ -45,7 +45,7 @@ class RegisterScreen extends StatelessWidget {
         } else if (state is AuthFailure) {
           Navigation.pop(context);
 
-          showErrorDialog(context, state.errorMessage);
+          showMyDialog(context, state.errorMessage);
         } else if (state is AuthSuccessed) {
           Navigation.pop(context);
 

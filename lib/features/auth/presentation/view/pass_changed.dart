@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
+import 'package:lottie/lottie.dart';
 
 // ignore: must_be_immutable
 class PassChanged extends StatefulWidget {
@@ -37,7 +38,7 @@ class _PassChangedState extends State<PassChanged> {
       body: BlocConsumer<Authtcubit, Authstates>(
         listener: (context, state) {
           if (state is AuthFailure) {
-            showErrorDialog(context, state.errorMessage);
+            showMyDialog(context, state.errorMessage);
           } else {
             if (Navigator.canPop(context)) {
               Navigation.pop(context);
@@ -96,7 +97,7 @@ class _PassChangedState extends State<PassChanged> {
           } else if (state is AuthFailure) {
             return Text("Error please try again");
           } else {
-            return Center(child: CircularProgressIndicator());
+            return Center(child: Lottie.asset('assets/images/Open book.json'));
           }
         },
       ),

@@ -16,7 +16,7 @@ class SharedPref {
     return getData(ktoken);
   }
 
-  static setData(String key, dynamic value) async {
+  static setData(String key, dynamic value) {
     if (value is int) {
       prefs.setInt(key, value);
     } else if (value is bool) {
@@ -32,5 +32,9 @@ class SharedPref {
 
   static getData(String key) {
     return prefs.get(key);
+  }
+
+  static detete(String key) {
+    return prefs.remove(key);
   }
 }

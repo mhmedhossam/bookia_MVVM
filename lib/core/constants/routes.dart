@@ -7,8 +7,9 @@ import 'package:bookia/features/auth/presentation/view/pass_changed.dart';
 import 'package:bookia/features/auth/presentation/view/register_screen.dart';
 import 'package:bookia/features/home/data/models/response/all_product_model/all_product_model/product.dart';
 import 'package:bookia/features/home/presentation/cubit/home_cubit.dart';
-import 'package:bookia/features/home/presentation/view/details.dart';
-import 'package:bookia/features/home/presentation/view/home_screen.dart';
+import 'package:bookia/features/home/presentation/view/details_view.dart';
+import 'package:bookia/features/home/presentation/view/home_view.dart';
+import 'package:bookia/features/home/presentation/view/search_view.dart';
 import 'package:bookia/features/main/main_app_screen.dart';
 import 'package:bookia/features/splash/splash_screen.dart';
 import 'package:bookia/features/welcome/welcome_screen.dart';
@@ -17,6 +18,7 @@ import 'package:go_router/go_router.dart';
 
 class Routes {
   static String splashScreen = "/splash_screen";
+  static String searchScreen = "/search_screen";
   static String welcomeScreen = "/welcome_screen";
   static String loginScreen = "/login_screen";
   static String registerScreen = "/register_screen";
@@ -32,24 +34,29 @@ class Routes {
     routes: [
       GoRoute(path: splashScreen, builder: (context, state) => SplashScreen()),
       GoRoute(
+        path: searchScreen,
+        builder: (context, state) => BlocProvider(
+          create: (context) => HomeCubit(),
+          child: SearchScreen(),
+        ),
+      ),
+      GoRoute(
         path: detailsScreen,
         builder: (context, state) {
-          Product product = state.extra as Product;
-          return Details(product: product);
+          final extra = state.extra as Map<String, dynamic>;
+          Product product = extra["product"] as Product;
+          final source = extra["source"] as String;
+          return BlocProvider(
+            create: (context) => HomeCubit(),
+            child: DetailsScreen(product: product, source: source),
+          );
         },
       ),
       GoRoute(path: homeScreen, builder: (context, state) => HomeScreen()),
       GoRoute(
         path: mainAppScreen,
         builder: (context, state) {
-          final token = state.extra as String?; // token is important
-          return BlocProvider(
-            create: (context) => HomeCubit(token: token)
-              ..getslider()
-              ..getBestSeller(),
-
-            child: MainAppScreen(),
-          );
+          return MainAppScreen();
         },
       ),
 

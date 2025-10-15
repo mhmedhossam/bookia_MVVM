@@ -1,14 +1,11 @@
-import 'package:bookia/core/constants/navigation.dart';
-import 'package:bookia/core/constants/routes.dart';
 import 'package:bookia/core/utils/text_styles.dart';
 import 'package:bookia/features/home/data/models/response/all_product_model/all_product_model/product.dart';
-import 'package:bookia/features/home/presentation/view/details.dart';
 import 'package:bookia/features/home/presentation/widgets/book_card.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
-class BestSellerBuilder extends StatelessWidget {
-  const BestSellerBuilder({super.key, required this.productList});
+class AllProductBuilder extends StatelessWidget {
+  const AllProductBuilder({super.key, required this.productList});
 
   final List<Product> productList;
 
@@ -19,7 +16,7 @@ class BestSellerBuilder extends StatelessWidget {
         Align(
           alignment: Alignment.centerLeft,
           child: Text(
-            "Best Seller ",
+            "All Products ",
             style: TextStyles.textStyle24.copyWith(fontWeight: FontWeight.w400),
           ),
         ),
@@ -32,11 +29,15 @@ class BestSellerBuilder extends StatelessWidget {
             maxCrossAxisExtent: 220,
             crossAxisSpacing: 11,
             mainAxisSpacing: 11,
-            mainAxisExtent: 290,
+            mainAxisExtent: 300,
           ),
           itemCount: productList.length,
           itemBuilder: (context, i) {
-            return BookCard(product: productList[i]);
+            return BookCard(
+              source: "All",
+              product: productList[i],
+              tag: "All_${productList[i].id ?? ""}",
+            );
           },
         ),
       ],

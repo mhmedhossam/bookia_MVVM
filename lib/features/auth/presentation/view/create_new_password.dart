@@ -39,7 +39,7 @@ class CreateNewPassword extends StatelessWidget {
             );
           } else if (state is AuthFailure) {
             context.pop();
-            showErrorDialog(context, state.errorMessage);
+            showMyDialog(context, state.errorMessage);
           }
         },
         child: SingleChildScrollView(

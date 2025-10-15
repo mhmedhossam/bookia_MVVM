@@ -1,7 +1,13 @@
 import 'package:bookia/core/constants/app_images.dart';
 import 'package:bookia/core/utils/app_colors.dart';
-import 'package:bookia/features/home/presentation/view/home_screen.dart';
+import 'package:bookia/features/cartlist/presentation/cubit/card_cubit.dart';
+import 'package:bookia/features/cartlist/presentation/views/cardlist_view.dart';
+import 'package:bookia/features/home/presentation/cubit/home_cubit.dart';
+import 'package:bookia/features/home/presentation/view/home_view.dart';
+import 'package:bookia/features/wishlist/presentation/cubit/wishlist_cubit.dart';
+import 'package:bookia/features/wishlist/presentation/views/wishlist_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class MainAppScreen extends StatefulWidget {
@@ -20,12 +26,19 @@ class _MainAppScreenState extends State<MainAppScreen> {
     super.initState();
 
     screens = [
-      HomeScreen(),
-      // BookmarkScreen(),
-      // CartScreen(),
-      // ProfileScreen(),
-      Center(child: Text("screen 2")),
-      Center(child: Text("screen 3")),
+      BlocProvider(
+        create: (context) => HomeCubit()..getHome(),
+        child: HomeScreen(),
+      ),
+
+      BlocProvider(
+        create: (context) => WishlistCubit()..getWishList(),
+        child: WishlistView(),
+      ),
+      BlocProvider(
+        create: (context) => CartCubit()..getCart(),
+        child: CardlistView(),
+      ),
       Center(child: Text("screen 4")),
     ];
   }
