@@ -6,13 +6,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 
-// ignore: must_be_immutable
 class CartCard extends StatelessWidget {
   final VoidCallback onPressed;
+  final VoidCallback increase;
+  final VoidCallback decrease;
   int x = 1;
   final CartItem cartModel;
 
-  CartCard({super.key, required this.cartModel, required this.onPressed});
+  CartCard({
+    super.key,
+    required this.cartModel,
+    required this.onPressed,
+    required this.increase,
+    required this.decrease,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +58,7 @@ class CartCard extends StatelessWidget {
                       child: Text(
                         cartModel.itemProductName ?? "",
                         style: TextStyles.textStyle18,
+                        maxLines: 2,
                       ),
                     ),
                     IconButton(
@@ -65,15 +73,18 @@ class CartCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                Text(
-                  cartModel.itemProductPrice ?? "",
-                  style: TextStyles.textStyle16,
+                Flexible(
+                  child: Text(
+                    "\$ ${cartModel.itemProductPriceAfterDiscount}" ?? "",
+                    style: TextStyles.textStyle16,
+                    maxLines: 1,
+                  ),
                 ),
 
                 Row(
                   children: [
                     GestureDetector(
-                      onTap: () {},
+                      onTap: increase,
                       child: Container(
                         margin: EdgeInsets.fromLTRB(0, 0, 15, 0),
                         height: 35,
@@ -87,11 +98,11 @@ class CartCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      x.toString().padLeft(2, '0'),
+                      cartModel.itemQuantity.toString().padLeft(2, '0'),
                       style: TextStyles.textStyle18,
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: decrease,
                       child: Container(
                         margin: EdgeInsets.fromLTRB(10, 0, 15, 0),
 
@@ -104,6 +115,10 @@ class CartCard extends StatelessWidget {
                         ),
                         child: Icon(Icons.remove),
                       ),
+                    ),
+                    Spacer(),
+                    Flexible(
+                      child: Text("${(cartModel.itemTotal)}", maxLines: 1),
                     ),
                   ],
                 ),

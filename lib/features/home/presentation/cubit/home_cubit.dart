@@ -85,7 +85,7 @@ class HomeCubit extends Cubit<HomeStates> {
     if (res.status != 200) {
       emit(HomeFailure(message: res.message ?? ""));
     } else {
-      emit(HomeSucceed());
+      emit(HomeSucceed(message: "product added to WishList"));
     }
   }
 
@@ -99,7 +99,7 @@ class HomeCubit extends Cubit<HomeStates> {
     if (res.status != 201) {
       emit(HomeFailure(message: res.message ?? ""));
     } else {
-      emit(HomeSucceed());
+      emit(HomeSucceed(message: "product added to Cart successfully"));
     }
   }
 }

@@ -32,4 +32,18 @@ class CardlistRepo {
 
     return CardListResponse.fromJson(res);
   }
+
+  static Future<CardListResponse> updateItemCart({
+    required int id,
+    required int quantity,
+  }) async {
+    var res = await DioProvider.post(
+      CardlistEndpoint.updateToCard,
+
+      data: {"cart_item_id": id, "quantity": quantity},
+      headers: {"Authorization": "Bearer ${SharedPref.getToken()}"},
+    );
+
+    return CardListResponse.fromJson(res);
+  }
 }

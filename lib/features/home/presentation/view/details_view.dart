@@ -25,7 +25,7 @@ class DetailsScreen extends StatelessWidget {
       listener: (context, state) {
         if (state is HomeSucceed) {
           Navigation.pop(context);
-          showMyDialog(context, "added succeeded");
+          showMyDialog(context, state.message ?? "", Dialogtype.success);
         } else if (state is HomeFailure) {
           Navigation.pop(context);
 

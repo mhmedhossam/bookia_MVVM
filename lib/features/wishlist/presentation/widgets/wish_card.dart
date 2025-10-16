@@ -38,7 +38,11 @@ class WishCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(wishmodel.name ?? "", style: TextStyles.textStyle18),
+                Text(
+                  wishmodel.name ?? "",
+                  style: TextStyles.textStyle18,
+                  maxLines: 1,
+                ),
                 Text(wishmodel.price ?? "", style: TextStyles.textStyle16),
 
                 Text(

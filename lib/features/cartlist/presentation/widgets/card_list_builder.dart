@@ -27,6 +27,20 @@ class CardListBuilder extends StatelessWidget {
               itemCount: cubit.cartItem.length,
               itemBuilder: (context, i) {
                 return CartCard(
+                  decrease: () {
+                    if ((cubit.cartItem[i].itemQuantity ?? 0) > 1) {
+                      cubit.updateCart(
+                        id: cubit.cartItem[i].itemId ?? 0,
+                        quantity: (cubit.cartItem[i].itemQuantity ?? 0) - 1,
+                      );
+                    }
+                  },
+                  increase: () {
+                    cubit.updateCart(
+                      id: cubit.cartItem[i].itemId ?? 0,
+                      quantity: (cubit.cartItem[i].itemQuantity ?? 0) + 1,
+                    );
+                  },
                   cartModel: cubit.cartItem[i],
                   onPressed: () {
                     cubit.removeCart(cubit.cartItem[i].itemId ?? 0);
@@ -37,10 +51,8 @@ class CardListBuilder extends StatelessWidget {
           }
         } else if (state is CartFailureState) {
           return Center(child: Text(state.message ?? ""));
-        } else if (state is CartLoadingState) {
-          return Center(child: Lottie.asset('assets/images/Open book.json'));
         } else {
-          return Center(child: Text("data"));
+          return Center(child: Lottie.asset('assets/images/Open book.json'));
         }
       },
     );
