@@ -10,7 +10,7 @@ class CardListResponse {
 
   factory CardListResponse.fromJson(Map<String, dynamic> json) {
     return CardListResponse(
-      data: json['data'] == null
+      data: json['data'] == null || json['data'] is List<dynamic>
           ? null
           : Data.fromJson(json['data'] as Map<String, dynamic>),
       message: json['message'] as String?,

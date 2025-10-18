@@ -5,6 +5,9 @@ import 'package:bookia/features/auth/presentation/view/login_screen.dart';
 import 'package:bookia/features/auth/presentation/view/otp_verify.dart';
 import 'package:bookia/features/auth/presentation/view/pass_changed.dart';
 import 'package:bookia/features/auth/presentation/view/register_screen.dart';
+import 'package:bookia/features/cartlist/presentation/cubit/card_cubit.dart';
+import 'package:bookia/features/cartlist/presentation/views/place_y_order.dart';
+import 'package:bookia/features/cartlist/presentation/views/success_view.dart';
 import 'package:bookia/features/home/data/models/response/all_product_model/all_product_model/product.dart';
 import 'package:bookia/features/home/presentation/cubit/home_cubit.dart';
 import 'package:bookia/features/home/presentation/view/details_view.dart';
@@ -18,6 +21,7 @@ import 'package:go_router/go_router.dart';
 
 class Routes {
   static String splashScreen = "/splash_screen";
+  static String placeYOrder = "/Place_your_order_screen";
   static String searchScreen = "/search_screen";
   static String welcomeScreen = "/welcome_screen";
   static String loginScreen = "/login_screen";
@@ -29,10 +33,21 @@ class Routes {
   static String homeScreen = "/home_screen";
   static String mainAppScreen = "/main_app_screen";
   static String detailsScreen = "/details_screen";
+  static String successView = "/vie_screen";
   static var routes = GoRouter(
     initialLocation: splashScreen,
     routes: [
       GoRoute(path: splashScreen, builder: (context, state) => SplashScreen()),
+      GoRoute(path: successView, builder: (context, state) => SuccessView()),
+      GoRoute(
+        path: placeYOrder,
+        builder: (context, state) {
+          return BlocProvider.value(
+            value: state.extra as CartCubit,
+            child: PlaceYOrder(),
+          );
+        },
+      ),
       GoRoute(
         path: searchScreen,
         builder: (context, state) => BlocProvider(
@@ -52,7 +67,6 @@ class Routes {
           );
         },
       ),
-      GoRoute(path: homeScreen, builder: (context, state) => HomeScreen()),
       GoRoute(
         path: mainAppScreen,
         builder: (context, state) {

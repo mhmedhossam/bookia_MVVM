@@ -32,7 +32,7 @@ class SearchScreen extends StatelessWidget {
             child: Column(
               children: [
                 CustomTextField(
-                  suffixIcon: Icon(Icons.search),
+                  prefixIcon: Icon(Icons.search),
                   hintText: "search",
                   controller: cubit.searchController,
                   onChanged: (value) {

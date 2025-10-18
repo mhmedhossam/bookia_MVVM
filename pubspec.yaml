@@ -30,6 +30,10 @@ dev_dependencies:
     sdk: flutter
   flutter_launcher_icons: "^0.13.1"
   flutter_lints: ^5.0.0
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/book.png"
 
 flutter:
   uses-material-design: true
@@ -42,8 +46,3 @@ flutter:
         - asset: assets/fonts/DMSerifDisplay-Regular.ttf
           weight: 400
           style: normal
-flutter_icons:
-  android: true
-  ios: true
-  image_path: "assets/images/bookiaimg.png"
-  flutter_lints: ^5.0.0

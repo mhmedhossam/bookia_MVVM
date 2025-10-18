@@ -1,22 +1,23 @@
 import 'package:bookia/core/constants/app_images.dart';
 import 'package:bookia/core/utils/app_colors.dart';
 import 'package:bookia/core/utils/text_styles.dart';
+import 'package:bookia/core/widgets/dialog.dart';
 import 'package:bookia/features/cartlist/data/models/response/card_list_response/cart_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 
 class CartCard extends StatelessWidget {
-  final VoidCallback onPressed;
-  final VoidCallback increase;
-  final VoidCallback decrease;
+  final VoidCallback onRemove;
+  final Function(int) increase;
+  final Function(int) decrease;
   int x = 1;
   final CartItem cartModel;
 
   CartCard({
     super.key,
     required this.cartModel,
-    required this.onPressed,
+    required this.onRemove,
     required this.increase,
     required this.decrease,
   });
@@ -63,7 +64,7 @@ class CartCard extends StatelessWidget {
                     ),
                     IconButton(
                       padding: EdgeInsets.zero,
-                      onPressed: onPressed,
+                      onPressed: onRemove,
 
                       icon: SvgPicture.asset(
                         AppImages.xIconSvg,
@@ -74,21 +75,45 @@ class CartCard extends StatelessWidget {
                   ],
                 ),
                 Flexible(
-                  child: Text(
-                    "\$ ${cartModel.itemProductPriceAfterDiscount}" ?? "",
-                    style: TextStyles.textStyle16,
-                    maxLines: 1,
+                  child: Row(
+                    children: [
+                      Text(
+                        "\$ ${cartModel.itemProductPriceAfterDiscount?.toStringAsFixed(2)}",
+                        style: TextStyles.textStyle16,
+                        maxLines: 1,
+                      ),
+                      Gap(20),
+                      Text(
+                        "\$ ${cartModel.itemProductPrice}" ?? "",
+                        style: TextStyles.textStyle16.copyWith(
+                          decoration: TextDecoration.lineThrough,
+                        ),
+                        maxLines: 1,
+                      ),
+                    ],
                   ),
                 ),
 
                 Row(
                   children: [
                     GestureDetector(
-                      onTap: increase,
+                      onTap: () {
+                        if ((cartModel.itemQuantity ?? 0) <
+                            (cartModel.itemProductStock ?? 0)) {
+                          int newQuantity = (cartModel.itemQuantity ?? 0) + 1;
+                          increase(newQuantity);
+                        } else {
+                          showMyDialog(
+                            context,
+                            "the maximum quantity is ${cartModel.itemProductStock ?? 0}",
+                            Dialogtype.info,
+                          );
+                        }
+                      },
                       child: Container(
                         margin: EdgeInsets.fromLTRB(0, 0, 15, 0),
-                        height: 35,
-                        width: 35,
+                        height: 30,
+                        width: 30,
                         decoration: BoxDecoration(
                           color: AppColors.greyColor.withValues(alpha: 0.2),
 
@@ -102,12 +127,23 @@ class CartCard extends StatelessWidget {
                       style: TextStyles.textStyle18,
                     ),
                     GestureDetector(
-                      onTap: decrease,
+                      onTap: () {
+                        if ((cartModel.itemQuantity ?? 0) > 1) {
+                          int newQuantity = (cartModel.itemQuantity ?? 0) - 1;
+                          decrease(newQuantity);
+                        } else {
+                          showMyDialog(
+                            context,
+                            "Minimum quantity is 1",
+                            Dialogtype.info,
+                          );
+                        }
+                      },
                       child: Container(
                         margin: EdgeInsets.fromLTRB(10, 0, 15, 0),
 
-                        height: 35,
-                        width: 35,
+                        height: 30,
+                        width: 30,
                         decoration: BoxDecoration(
                           color: AppColors.greyColor.withValues(alpha: 0.2),
 
@@ -116,9 +152,23 @@ class CartCard extends StatelessWidget {
                         child: Icon(Icons.remove),
                       ),
                     ),
-                    Spacer(),
+                    // Spacer(),
                     Flexible(
-                      child: Text("${(cartModel.itemTotal)}", maxLines: 1),
+                      child: cartModel.itemTotal is double
+                          ? Text(
+                              (cartModel.itemTotal as double).toStringAsFixed(
+                                2,
+                              ),
+
+                              style: TextStyles.textStyle18,
+                              maxLines: 1,
+                            )
+                          : Text(
+                              double.parse(
+                                cartModel.itemTotal as String,
+                              ).toStringAsFixed(2),
+                              maxLines: 1,
+                            ),
                     ),
                   ],
                 ),

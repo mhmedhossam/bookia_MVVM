@@ -41,7 +41,7 @@ class Governmentmodel {
     );
   }
 
-  List<Governmentmodel> governListModel() {
+  static List<Governmentmodel> governListModels() {
     List<Governmentmodel> governModelList = governList.map((e) {
       return Governmentmodel.fromJson(e);
     }).toList();

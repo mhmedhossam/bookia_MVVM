@@ -8,7 +8,7 @@ class CartItem {
   double? itemProductPriceAfterDiscount;
   int? itemProductStock;
   int? itemQuantity;
-  double? itemTotal;
+  dynamic itemTotal;
 
   CartItem({
     this.itemId,
@@ -34,7 +34,7 @@ class CartItem {
         (json['item_product_price_after_discount'] as num?)?.toDouble(),
     itemProductStock: json['item_product_stock'] as int?,
     itemQuantity: json['item_quantity'] as int?,
-    itemTotal: (json['item_total'] as num?)?.toDouble(),
+    itemTotal: json['item_total'] as dynamic,
   );
 
   Map<String, dynamic> toJson() => {

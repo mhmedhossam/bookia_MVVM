@@ -27,7 +27,6 @@ class WishlistCubit extends Cubit<WishlistState> {
   removeFromWishList(int id) async {
     if (isClosed) return;
 
-    emit(LoadingState());
     GetWishListResponse res = await WishRepo.removeFromWishList(id);
     if (isClosed) return;
 

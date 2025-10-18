@@ -76,7 +76,6 @@ class HomeCubit extends Cubit<HomeStates> {
   }
 
   addToWishList(int id) async {
-    emit(HomeLoading());
     if (isClosed) return;
 
     var res = await WishRepo.addToWishList(id);
@@ -90,7 +89,6 @@ class HomeCubit extends Cubit<HomeStates> {
   }
 
   addToCartList(int id) async {
-    emit(HomeLoading());
     if (isClosed) return;
 
     var res = await CardlistRepo.addToCart(id);

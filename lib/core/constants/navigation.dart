@@ -10,7 +10,13 @@ class Navigation {
     context.pushReplacement(screenPage);
   }
 
-  static pushNamedTo(BuildContext context, String screenPage, [Object? extra]) {
+  static pushNamedTo(
+    BuildContext context,
+    String screenPage, [
+    Object? extra,
+
+    // Future<dynamic> Function(Object?)? onset, .then(onset!)
+  ]) {
     context.push(screenPage, extra: extra);
   }
 

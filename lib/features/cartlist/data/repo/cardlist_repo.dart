@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:bookia/core/services/api/dio_provider.dart';
 import 'package:bookia/core/services/local/shared_pref.dart';
 import 'package:bookia/features/cartlist/data/models/response/card_list_response/card_list_response.dart';
+import 'package:bookia/features/cartlist/data/models/response/card_list_response/user.dart';
 import 'package:bookia/features/cartlist/data/repo/cardlist_endpoint.dart';
 
 class CardlistRepo {
@@ -45,5 +48,36 @@ class CardlistRepo {
     );
 
     return CardListResponse.fromJson(res);
+  }
+
+  static Future<CardListResponse> getPlaceOrder() async {
+    var res = await DioProvider.get(
+      CardlistEndpoint.checkOut,
+      headers: {"Authorization": "Bearer ${SharedPref.getToken()}"},
+    );
+
+    return CardListResponse.fromJson(res);
+  }
+
+  static Future<CardListResponse> submitOrder(User user) async {
+    log("===== SUBMIT ORDER DATA =====");
+    log("user_name: ${user.userName}");
+    log("user_email: ${user.userEmail}");
+    log("address: ${user.address}");
+    log("phone: ${user.phone}");
+    log("governorate_id: ${user.governorateId}");
+    try {
+      var res = await DioProvider.post(
+        CardlistEndpoint.placeOrder,
+        data: user.toJson(),
+        headers: {"Authorization": "Bearer ${SharedPref.getToken()}"},
+      );
+
+      return CardListResponse.fromJson(res);
+    } on Exception catch (e) {
+      log(e.toString());
+      throw (e.toString());
+      // TODO
+    }
   }
 }
