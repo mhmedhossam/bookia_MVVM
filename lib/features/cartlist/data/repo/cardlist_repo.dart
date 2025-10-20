@@ -50,7 +50,7 @@ class CardlistRepo {
     return CardListResponse.fromJson(res);
   }
 
-  static Future<CardListResponse> getPlaceOrder() async {
+  static Future<CardListResponse> checkOutRepo() async {
     var res = await DioProvider.get(
       CardlistEndpoint.checkOut,
       headers: {"Authorization": "Bearer ${SharedPref.getToken()}"},
@@ -60,12 +60,6 @@ class CardlistRepo {
   }
 
   static Future<CardListResponse> submitOrder(User user) async {
-    log("===== SUBMIT ORDER DATA =====");
-    log("user_name: ${user.userName}");
-    log("user_email: ${user.userEmail}");
-    log("address: ${user.address}");
-    log("phone: ${user.phone}");
-    log("governorate_id: ${user.governorateId}");
     try {
       var res = await DioProvider.post(
         CardlistEndpoint.placeOrder,

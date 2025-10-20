@@ -7,17 +7,15 @@ class Navigation {
     String screenPage, [
     Object? extra,
   ]) {
-    context.pushReplacement(screenPage);
+    return context.pushReplacement(screenPage);
   }
 
-  static pushNamedTo(
+  static Future pushNamedTo(
     BuildContext context,
     String screenPage, [
     Object? extra,
-
-    // Future<dynamic> Function(Object?)? onset, .then(onset!)
   ]) {
-    context.push(screenPage, extra: extra);
+    return context.push(screenPage, extra: extra);
   }
 
   static pushNamedandRemoveUntilTo(
@@ -25,12 +23,12 @@ class Navigation {
     String screenPage, [
     Object? extra,
   ]) {
-    context.go(screenPage, extra: extra);
+    return context.go(screenPage, extra: extra);
   }
 
-  static pop(BuildContext context) {
+  static pop(BuildContext context, [dynamic a]) {
     if (context.canPop()) {
-      context.pop();
+      return context.pop(a);
     }
   }
 }

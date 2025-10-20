@@ -1,5 +1,7 @@
 import 'dart:developer';
 
+import 'package:bookia/core/services/local/shared_pref.dart';
+import 'package:bookia/features/auth/data/models/response/auth_response/user.dart';
 import 'package:bookia/features/cartlist/data/models/response/card_list_response/card_list_response.dart';
 import 'package:bookia/features/cartlist/data/models/response/card_list_response/cart_item.dart';
 import 'package:bookia/features/cartlist/data/models/response/card_list_response/user.dart';
@@ -11,14 +13,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class CartCubit extends Cubit<CartStates> {
   CardListResponse? cardListResponse;
   List<CartItem> cartItem = [];
-  User? user;
 
-  final name = TextEditingController();
-  final email = TextEditingController();
-  final address = TextEditingController();
-  final phone = TextEditingController();
-  final formkey = GlobalKey<FormState>();
-  final governorate = TextEditingController();
+  var name = TextEditingController();
+  var email = TextEditingController();
+  var address = TextEditingController();
+  var phone = TextEditingController();
+  var formkey = GlobalKey<FormState>();
+  var governorate = TextEditingController();
   int? governorateId;
   CartCubit() : super(CartInitialState());
 
@@ -66,36 +67,43 @@ class CartCubit extends Cubit<CartStates> {
     }
   }
 
-  getPlaceOrder() async {
-    emit(CartLoadingState());
+  checkOut() async {
+    emit(CheckoutLoadingState());
 
-    var res = await CardlistRepo.getPlaceOrder();
+    var res = await CardlistRepo.checkOutRepo();
     if (isClosed) return;
 
     if (res.status != 200) {
-      emit(CartFailureState(message: res.message));
+      emit(CheckoutFailureState(message: res.message));
     } else {
-      user = res.data?.user;
-
-      emit(CartSucceedState());
+      emit(CheckoutSucceedState());
     }
   }
 
   submitOrder(User user) async {
     try {
       if (isClosed) return;
-      emit(CartLoadingState());
+      emit(PlaceOrderLoadingState());
       var res = await CardlistRepo.submitOrder(user);
       if (isClosed) return;
 
       if (res.status != 201) {
-        emit(CartFailureState(message: res.message));
+        emit(PlaceOrderFailureState(message: res.message));
       } else {
-        emit(CartSucceedState());
+        emit(PlaceOrderSucceedState());
       }
     } on Exception catch (e) {
       log(e.toString());
       throw (e.toString());
     }
+  }
+
+  reFillDataUser() {
+    var user = SharedPref.getUserData() as AuthUSer;
+
+    email.text = user.email ?? "";
+    phone.text = user.phone ?? "";
+    address.text = user.address ?? "";
+    name.text = user.name ?? "";
   }
 }

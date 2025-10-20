@@ -1,4 +1,4 @@
-class HomeStates {}
+abstract class HomeStates {}
 
 class InitialState extends HomeStates {}
 

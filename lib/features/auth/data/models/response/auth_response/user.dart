@@ -1,14 +1,14 @@
-class User {
+class AuthUSer {
   int? id;
   String? name;
   String? email;
   String? address;
   String? city;
-  int? phone;
+  String? phone;
   bool? emailVerified;
   String? image;
 
-  User({
+  AuthUSer({
     this.address,
     this.city,
     this.email,
@@ -19,8 +19,8 @@ class User {
     this.phone,
   });
 
-  factory User.fromJson(json) {
-    return User(
+  factory AuthUSer.fromJson(json) {
+    return AuthUSer(
       address: json?["address"] as String?,
       city: json?["city"] as String?,
       email: json?["email"] as String?,
@@ -28,7 +28,17 @@ class User {
       id: json?["id"] as int?,
       image: json?["image"] as String?,
       name: json?["name"] as String?,
-      phone: json?["phone"] as int?,
+      phone: json?["phone"] as String?,
     );
   }
+  Map<String, dynamic> toJson() => {
+    'name': name,
+    'email': email,
+    'address': address,
+    'phone': phone,
+    'city': city,
+    'id': id,
+    'image': image,
+    'emailVerified': emailVerified,
+  };
 }

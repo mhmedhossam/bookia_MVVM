@@ -11,9 +11,12 @@ import 'package:bookia/features/cartlist/presentation/views/success_view.dart';
 import 'package:bookia/features/home/data/models/response/all_product_model/all_product_model/product.dart';
 import 'package:bookia/features/home/presentation/cubit/home_cubit.dart';
 import 'package:bookia/features/home/presentation/view/details_view.dart';
-import 'package:bookia/features/home/presentation/view/home_view.dart';
 import 'package:bookia/features/home/presentation/view/search_view.dart';
 import 'package:bookia/features/main/main_app_screen.dart';
+import 'package:bookia/features/profile/presentation/cubit/profile_cubit.dart';
+import 'package:bookia/features/profile/presentation/views/edit_profile.dart';
+import 'package:bookia/features/profile/presentation/views/my_orders.dart';
+import 'package:bookia/features/profile/presentation/views/update_password.dart';
 import 'package:bookia/features/splash/splash_screen.dart';
 import 'package:bookia/features/welcome/welcome_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,17 +37,41 @@ class Routes {
   static String mainAppScreen = "/main_app_screen";
   static String detailsScreen = "/details_screen";
   static String successView = "/vie_screen";
+  static String updatePasswordScreen = "/updatePassword_Screen";
+  static String myOrderScreen = "/myorder_Screen";
+  static String editprofile = "/editprofile_Screen";
   static var routes = GoRouter(
     initialLocation: splashScreen,
     routes: [
       GoRoute(path: splashScreen, builder: (context, state) => SplashScreen()),
+      GoRoute(
+        path: myOrderScreen,
+        builder: (context, state) => BlocProvider(
+          create: (context) => ProfileCubit()..getMyOrders(),
+          child: MyOrders(),
+        ),
+      ),
+      GoRoute(
+        path: updatePasswordScreen,
+        builder: (context, state) => BlocProvider(
+          create: (context) => ProfileCubit(),
+          child: UpdatePassword(),
+        ),
+      ),
       GoRoute(path: successView, builder: (context, state) => SuccessView()),
+      GoRoute(
+        path: editprofile,
+        builder: (context, state) => BlocProvider(
+          create: (context) => ProfileCubit()..initData(),
+          child: EditProfile(),
+        ),
+      ),
       GoRoute(
         path: placeYOrder,
         builder: (context, state) {
-          return BlocProvider.value(
-            value: state.extra as CartCubit,
-            child: PlaceYOrder(),
+          return BlocProvider(
+            create: (context) => CartCubit()..reFillDataUser(),
+            child: PlaceYOrder(total: state.extra),
           );
         },
       ),
@@ -70,7 +97,7 @@ class Routes {
       GoRoute(
         path: mainAppScreen,
         builder: (context, state) {
-          return MainAppScreen();
+          return MainAppScreen(initialIndex: state.extra as int?);
         },
       ),
 

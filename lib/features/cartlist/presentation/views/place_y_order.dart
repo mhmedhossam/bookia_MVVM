@@ -9,29 +9,30 @@ import 'package:bookia/core/widgets/main_button.dart';
 import 'package:bookia/features/cartlist/data/models/response/card_list_response/user.dart';
 import 'package:bookia/features/cartlist/presentation/cubit/card_cubit.dart';
 import 'package:bookia/features/cartlist/presentation/cubit/card_states.dart';
-import 'package:bookia/governmentmodel.dart';
+import 'package:bookia/core/helper/governmentmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
 class PlaceYOrder extends StatelessWidget {
-  const PlaceYOrder({super.key});
+  dynamic total;
+  PlaceYOrder({super.key, required this.total});
 
   @override
   Widget build(BuildContext context) {
     var cubit = context.read<CartCubit>();
-    cubit.email.text = cubit.user?.userEmail ?? "";
 
     return BlocListener<CartCubit, CartStates>(
       listener: (context, state) {
-        if (state is CartLoadingState) {
+        if (state is PlaceOrderLoadingState) {
           showloadingDialog(context);
-        } else if (state is CartSucceedState) {
+        } else if (state is PlaceOrderSucceedState) {
           Navigation.pop(context);
           Navigation.pushNamedTo(context, Routes.successView);
-        } else if (state is CartFailureState) {
+        } else if (state is PlaceOrderFailureState) {
           Navigation.pop(context);
-          showMyDialog(context, "donkey");
+          showMyDialog(context, state.message ?? "");
         }
       },
       child: Scaffold(
@@ -65,8 +66,6 @@ class PlaceYOrder extends StatelessWidget {
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return "please enter your Full Name";
-                      } else if (value.length <= 12) {
-                        return "Enter Full Name example \"mhmed hosam yousif \"";
                       }
                       return null;
                     },
@@ -76,13 +75,15 @@ class PlaceYOrder extends StatelessWidget {
 
                   CustomTextField(
                     keyboardType: TextInputType.emailAddress,
-
+                    inputFormatters: [
+                      FilteringTextInputFormatter.deny(RegExp(r'\s')),
+                    ],
                     controller: cubit.email,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return "please enter your email";
                       } else if (!RegExp(
-                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
+                        r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$",
                       ).hasMatch(value)) {
                         return "please enter a valid email";
                       }
@@ -107,11 +108,19 @@ class PlaceYOrder extends StatelessWidget {
                   Gap(10),
 
                   CustomTextField(
+                    inputFormatters: [
+                      LengthLimitingTextInputFormatter(11),
+                      FilteringTextInputFormatter.digitsOnly,
+                    ],
                     keyboardType: TextInputType.phone,
                     controller: cubit.phone,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return "please enter your phone";
+                      } else if (!RegExp(
+                        r'^01[0125][0-9]{8}$',
+                      ).hasMatch(value)) {
+                        return "please enter valid phone";
                       }
                       return null;
                     },
@@ -120,71 +129,72 @@ class PlaceYOrder extends StatelessWidget {
                   Gap(10),
 
                   CustomTextField(
-                    suffixIcon: IconButton(
-                      onPressed: () {
-                        showModalBottomSheet(
-                          context: context,
-                          backgroundColor: Colors.white,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.vertical(
-                              top: Radius.circular(20),
-                            ),
+                    suffixIcon: Icon(Icons.keyboard_arrow_down_outlined),
+                    onTap: () {
+                      showModalBottomSheet(
+                        context: context,
+                        backgroundColor: Colors.white,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(20),
                           ),
-                          builder: (_) {
-                            var cubit = context.read<CartCubit>();
-                            List<Governmentmodel> govListModels =
-                                Governmentmodel.governListModels();
+                        ),
+                        builder: (_) {
+                          var cubit = context.read<CartCubit>();
+                          List<Governmentmodel> govListModels =
+                              Governmentmodel.governListModels();
 
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 10,
-                                horizontal: 15,
-                              ),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Container(
-                                    height: 4,
-                                    width: 40,
-                                    margin: const EdgeInsets.only(bottom: 10),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
-                                      color: AppColors.greyColor,
-                                    ),
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 10,
+                              horizontal: 15,
+                            ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Container(
+                                  height: 4,
+                                  width: 40,
+                                  margin: const EdgeInsets.only(bottom: 10),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: AppColors.greyColor,
                                   ),
-                                  Text(
-                                    "Select your Governorate",
-                                    style: TextStyles.textStyle18,
+                                ),
+                                Text(
+                                  "Select your Governorate",
+                                  style: TextStyles.textStyle18,
+                                ),
+                                const SizedBox(height: 10),
+                                Flexible(
+                                  child: ListView.builder(
+                                    itemCount: govListModels.length,
+                                    itemBuilder: (_, i) {
+                                      return ListTile(
+                                        leading: Icon(Icons.location_on),
+                                        trailing: Icon(Icons.arrow_forward_ios),
+                                        title: Text(
+                                          govListModels[i].governorateNameEn!,
+                                        ),
+                                        onTap: () {
+                                          cubit.governorate.text =
+                                              govListModels[i]
+                                                  .governorateNameEn!;
+                                          cubit.governorateId =
+                                              govListModels[i].id;
+                                          Navigator.pop(context);
+                                        },
+                                      );
+                                    },
                                   ),
-                                  const SizedBox(height: 10),
-                                  Flexible(
-                                    child: ListView.builder(
-                                      itemCount: govListModels.length,
-                                      itemBuilder: (_, i) {
-                                        return ListTile(
-                                          title: Text(
-                                            govListModels[i].governorateNameEn!,
-                                          ),
-                                          onTap: () {
-                                            cubit.governorate.text =
-                                                govListModels[i]
-                                                    .governorateNameEn!;
-                                            cubit.governorateId =
-                                                govListModels[i].id;
-                                            Navigator.pop(context);
-                                          },
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                        );
-                      },
-                      icon: Icon(Icons.arrow_downward),
-                    ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    },
+
                     keyboardType: TextInputType.name,
                     readOnly: true,
                     controller: cubit.governorate,
@@ -214,21 +224,12 @@ class PlaceYOrder extends StatelessWidget {
                   children: [
                     Text("total: ", style: TextStyles.textStyle18),
 
-                    Text(
-                      "\$ ${cubit.cardListResponse?.data?.total ?? 0} ",
-                      style: TextStyles.textStyle18,
-                    ),
+                    Text("\$ ${total ?? 0} ", style: TextStyles.textStyle18),
                   ],
                 ),
                 MainButton(
                   onPressed: () {
                     if (cubit.formkey.currentState!.validate()) {
-                      print("address: ${cubit.address.text}");
-                      print("phone: ${cubit.phone.text}");
-                      print("userEmail: ${cubit.email.text}");
-                      print("userName: ${cubit.name.text}");
-                      print("governorateId: ${cubit.governorateId}");
-
                       User user = User(
                         address: cubit.address.text,
                         phone: cubit.phone.text,

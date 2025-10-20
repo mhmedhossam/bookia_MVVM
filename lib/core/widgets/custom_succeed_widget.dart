@@ -55,7 +55,7 @@ class CustomSucceedWidget extends StatelessWidget {
             bgColor: AppColors.primaryColor,
 
             onPressed: () {
-              Navigation.pushNamedandRemoveUntilTo(context, screenPage);
+              Navigation.pushNamedandRemoveUntilTo(context, screenPage, 0);
             },
           ),
         ],

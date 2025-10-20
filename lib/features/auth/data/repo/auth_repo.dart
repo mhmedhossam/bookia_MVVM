@@ -22,6 +22,7 @@ class AuthRepo {
 
     var succedData = AuthResponse.fromjson(data);
     SharedPref.setToken(succedData.data?.token);
+    SharedPref.setusercache(succedData.data?.user);
     return succedData;
   }
 
@@ -53,15 +54,6 @@ class AuthRepo {
     var data = await DioProvider.post(
       AuthEndpoints.setNewPassword,
       data: authDataRequesr.toJson(),
-    );
-
-    return AuthResponse.fromjson(data);
-  }
-
-  static Future<AuthResponse> passwordChanged(String token) async {
-    var data = await DioProvider.get(
-      AuthEndpoints.passwordChanged,
-      headers: {'Authorization': 'Bearer $token'},
     );
 
     return AuthResponse.fromjson(data);

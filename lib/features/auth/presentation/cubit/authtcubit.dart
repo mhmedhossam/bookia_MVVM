@@ -35,22 +35,26 @@ class Authtcubit extends Cubit<Authstates> {
   }
 
   login() async {
-    if (isClosed) return;
+    try {
+      if (isClosed) return;
 
-    emit(Authloading());
+      emit(Authloading());
 
-    var res = await AuthRepo.login(
-      AuthDataRequesr(
-        email: emailController.text,
-        password: passwordController.text,
-      ),
-    );
-    if (isClosed) return;
+      var res = await AuthRepo.login(
+        AuthDataRequesr(
+          email: emailController.text,
+          password: passwordController.text,
+        ),
+      );
+      if (isClosed) return;
 
-    if (res.status != 200) {
-      emit(AuthFailure(errorMessage: res.message!));
-    } else {
-      emit(AuthSuccessed(token: res.data!.token));
+      if (res.status != 200) {
+        emit(AuthFailure(errorMessage: res.message!));
+      } else {
+        emit(AuthSuccessed());
+      }
+    } on Exception catch (e) {
+      emit(AuthFailure(errorMessage: "hosooo"));
     }
   }
 
@@ -99,20 +103,6 @@ class Authtcubit extends Cubit<Authstates> {
         newconfirmPass: confirmpasswordController.text,
       ),
     );
-    if (isClosed) return;
-
-    if (res.status != 200) {
-      emit(AuthFailure(errorMessage: res.message!));
-    } else {
-      emit(AuthSuccessed(token: res.data!.token));
-    }
-  }
-
-  passchanged(String token) async {
-    if (isClosed) return;
-
-    emit(Authloading());
-    var res = await AuthRepo.passwordChanged(token);
     if (isClosed) return;
 
     if (res.status != 200) {

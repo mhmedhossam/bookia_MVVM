@@ -1,3 +1,4 @@
+import 'package:bookia/core/constants/app_images.dart';
 import 'package:bookia/core/widgets/empty_list_widget.dart';
 import 'package:bookia/features/wishlist/presentation/cubit/wishlist_cubit.dart';
 import 'package:bookia/features/wishlist/presentation/cubit/wishlist_state.dart';
@@ -16,7 +17,10 @@ class WishListBuilder extends StatelessWidget {
       builder: (context, state) {
         if (state is SucceededState) {
           if (cubit.wishList.isEmpty) {
-            return EmptyListWidget(text: "Empty List");
+            return EmptyListWidget(
+              text: "Empty List",
+              image: AppImages.bookmarkSvg,
+            );
           } else {
             return ListView.separated(
               padding: const EdgeInsets.all(22),

@@ -1,6 +1,7 @@
 import 'package:bookia/core/utils/app_colors.dart';
 import 'package:bookia/core/utils/text_styles.dart';
 import 'package:bookia/features/home/data/models/response/all_product_model/all_product_model/product.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:html/parser.dart' as html_parser;
@@ -25,8 +26,8 @@ class WishCard extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(20),
-            child: Image.network(
-              wishmodel.image ?? "",
+            child: CachedNetworkImage(
+              imageUrl: wishmodel.image ?? "",
               fit: BoxFit.cover,
               height: 118,
               width: 100,

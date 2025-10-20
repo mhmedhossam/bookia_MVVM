@@ -1,7 +1,7 @@
 import 'package:bookia/features/auth/data/models/response/auth_response/user.dart';
 
 class Data {
-  User? user;
+  AuthUSer? user;
   String? token;
 
   Data({this.token, this.user});
@@ -9,7 +9,7 @@ class Data {
   factory Data.fromjson(json) {
     return Data(
       token: json?["token"] as String?,
-      user: User.fromJson(json?["user"]),
+      user: AuthUSer.fromJson(json?["user"]),
     );
   }
 }

@@ -3,10 +3,12 @@ import 'package:bookia/core/utils/app_colors.dart';
 import 'package:bookia/core/utils/text_styles.dart';
 import 'package:bookia/core/widgets/dialog.dart';
 import 'package:bookia/features/cartlist/data/models/response/card_list_response/cart_item.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 
+// ignore: must_be_immutable
 class CartCard extends StatelessWidget {
   final VoidCallback onRemove;
   final Function(int) increase;
@@ -37,8 +39,8 @@ class CartCard extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(20),
-            child: Image.network(
-              cartModel.itemProductImage ?? "",
+            child: CachedNetworkImage(
+              imageUrl: cartModel.itemProductImage ?? "",
               fit: BoxFit.cover,
               height: 118,
               width: 100,
@@ -163,11 +165,15 @@ class CartCard extends StatelessWidget {
                               style: TextStyles.textStyle18,
                               maxLines: 1,
                             )
-                          : Text(
+                          : cartModel.itemTotal is String
+                          ? Text(
                               double.parse(
                                 cartModel.itemTotal as String,
                               ).toStringAsFixed(2),
                               maxLines: 1,
+                            )
+                          : Text(
+                              (cartModel.itemTotal as int).toStringAsFixed(2),
                             ),
                     ),
                   ],

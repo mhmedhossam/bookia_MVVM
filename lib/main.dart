@@ -61,9 +61,6 @@ class Bookia extends StatelessWidget {
           surfaceTintColor: Colors.transparent,
         ),
       ),
-
-      // initialRoute: Routes.splashScreen,
-      // routes: Routes.routes,
       routerConfig: Routes.routes,
     );
   }

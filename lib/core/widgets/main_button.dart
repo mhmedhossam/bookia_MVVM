@@ -1,6 +1,7 @@
 import 'package:bookia/core/utils/text_styles.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class MainButton extends StatelessWidget {
   final void Function() onPressed;
   final String text;

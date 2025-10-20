@@ -4,6 +4,8 @@ import 'package:bookia/features/cartlist/presentation/cubit/card_cubit.dart';
 import 'package:bookia/features/cartlist/presentation/views/cardlist_view.dart';
 import 'package:bookia/features/home/presentation/cubit/home_cubit.dart';
 import 'package:bookia/features/home/presentation/view/home_view.dart';
+import 'package:bookia/features/profile/presentation/cubit/profile_cubit.dart';
+import 'package:bookia/features/profile/presentation/views/profile_view.dart';
 import 'package:bookia/features/wishlist/presentation/cubit/wishlist_cubit.dart';
 import 'package:bookia/features/wishlist/presentation/views/wishlist_view.dart';
 import 'package:flutter/material.dart';
@@ -11,15 +13,23 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class MainAppScreen extends StatefulWidget {
-  const MainAppScreen({super.key});
+  int? initialIndex;
+  MainAppScreen({super.key, this.initialIndex});
 
   @override
   State<MainAppScreen> createState() => _MainAppScreenState();
 }
 
 class _MainAppScreenState extends State<MainAppScreen> {
-  int x = 0;
+  int currentIndex = 0;
   late List<Widget> screens;
+  @override
+  void didUpdateWidget(covariant MainAppScreen oldWidget) {
+    if (widget.initialIndex != null) {
+      currentIndex = widget.initialIndex!;
+    }
+    super.didUpdateWidget(oldWidget);
+  }
 
   @override
   void initState() {
@@ -39,7 +49,7 @@ class _MainAppScreenState extends State<MainAppScreen> {
         create: (context) => CartCubit()..getCart(),
         child: CardlistView(),
       ),
-      Center(child: Text("screen 4")),
+      BlocProvider(create: (context) => ProfileCubit(), child: ProfileView()),
     ];
   }
 
@@ -47,9 +57,9 @@ class _MainAppScreenState extends State<MainAppScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: x,
+        currentIndex: currentIndex,
         onTap: (index) {
-          x = index;
+          currentIndex = index;
           setState(() {});
         },
 
@@ -67,7 +77,7 @@ class _MainAppScreenState extends State<MainAppScreen> {
         ],
       ),
 
-      body: screens[x],
+      body: screens[currentIndex],
     );
   }
 

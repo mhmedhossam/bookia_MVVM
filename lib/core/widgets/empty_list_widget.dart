@@ -6,7 +6,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class EmptyListWidget extends StatelessWidget {
   final String text;
-  const EmptyListWidget({super.key, required this.text});
+  final String image;
+  const EmptyListWidget({super.key, required this.text, required this.image});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class EmptyListWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SvgPicture.asset(
-            AppImages.bookmarkSvg,
+            image,
             height: 120,
             width: 120,
             colorFilter: ColorFilter.mode(

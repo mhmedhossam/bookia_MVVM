@@ -1,4 +1,4 @@
-class WishlistState {}
+abstract class WishlistState {}
 
 class InitialState extends WishlistState {}
 

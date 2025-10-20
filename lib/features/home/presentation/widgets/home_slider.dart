@@ -1,5 +1,6 @@
 import 'package:bookia/core/utils/app_colors.dart';
 import 'package:bookia/features/home/data/models/response/slider_model/slider.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -43,8 +44,8 @@ class _HomeSliderState extends State<HomeSlider> {
               (BuildContext context, int itemIndex, int pageViewIndex) =>
                   ClipRRect(
                     borderRadius: BorderRadius.circular(20),
-                    child: Image.network(
-                      widget.sliders[itemIndex].image!,
+                    child: CachedNetworkImage(
+                      imageUrl: widget.sliders[itemIndex].image!,
                       width: double.infinity,
                       fit: BoxFit.cover,
                     ),

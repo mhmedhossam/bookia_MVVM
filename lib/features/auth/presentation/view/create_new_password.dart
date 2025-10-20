@@ -35,7 +35,6 @@ class CreateNewPassword extends StatelessWidget {
             Navigation.pushNamedandRemoveUntilTo(
               context,
               Routes.passChangedScreen,
-              state.token,
             );
           } else if (state is AuthFailure) {
             context.pop();

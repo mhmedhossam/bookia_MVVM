@@ -42,11 +42,7 @@ class LoginScreen extends StatelessWidget {
             showMyDialog(context, state.errorMessage);
           } else if (state is AuthSuccessed) {
             Navigation.pop(context);
-            Navigation.pushNamedandRemoveUntilTo(
-              context,
-              Routes.mainAppScreen,
-              state.token,
-            );
+            Navigation.pushNamedandRemoveUntilTo(context, Routes.mainAppScreen);
           }
         },
         child: _loginBody(context),
@@ -86,6 +82,7 @@ _loginBody(BuildContext context) {
             Gap(15),
 
             CustomTextField(
+              obscureText: true,
               controller: cubit.passwordController,
               validator: (value) {
                 if (value == null || value.isEmpty) {

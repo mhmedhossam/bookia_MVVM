@@ -8,6 +8,7 @@ import 'package:bookia/core/widgets/main_button.dart';
 import 'package:bookia/features/home/data/models/response/all_product_model/all_product_model/product.dart';
 import 'package:bookia/features/home/presentation/cubit/home_cubit.dart';
 import 'package:bookia/features/home/presentation/cubit/home_states.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -85,8 +86,8 @@ class DetailsScreen extends StatelessWidget {
                     tag: "${source}_${product?.id ?? ""}",
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
-                      child: Image.network(
-                        product?.image ?? "",
+                      child: CachedNetworkImage(
+                        imageUrl: product?.image ?? "",
                         height: 270,
                         width: 183,
                         fit: BoxFit.cover,
