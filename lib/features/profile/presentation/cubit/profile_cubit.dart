@@ -29,26 +29,18 @@ class ProfileCubit extends Cubit<ProfileStates> {
     phoneController.text = user.phone ?? "";
     addressController.text = user.address ?? "";
     nameController.text = user.name ?? "";
-
-    print("📱 Phone: ${phoneController.text}");
-    print("🏠 Address: ${addressController.text}");
-    print("👤 Name: ${nameController.text}");
   }
 
   getMyOrders() async {
-    try {
-      emit(ProfileLoadingState());
+    emit(ProfileLoadingState());
 
-      orderRes = await ProfileRepo.getMyOrder();
-      if (orderRes.status != 200) {
-        emit(ProfileFailureState(message: orderRes.message ?? ""));
-      } else {
-        emit(ProfileSuccessState());
-        orders = orderRes.data!.orders!;
-        return orders;
-      }
-    } on Exception catch (e) {
-      throw (e.toString());
+    orderRes = await ProfileRepo.getMyOrder();
+    if (orderRes.status != 200) {
+      emit(ProfileFailureState(message: orderRes.message ?? ""));
+    } else {
+      emit(ProfileSuccessState());
+      orders = orderRes.data!.orders!;
+      return orders;
     }
   }
 

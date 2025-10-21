@@ -2,6 +2,7 @@ import 'package:bookia/core/constants/app_images.dart';
 import 'package:bookia/core/utils/app_colors.dart';
 import 'package:bookia/core/utils/text_styles.dart';
 import 'package:bookia/core/widgets/custom_back_button.dart';
+import 'package:bookia/core/widgets/empty_list_widget.dart';
 import 'package:bookia/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:bookia/features/profile/presentation/cubit/profile_states.dart';
 import 'package:flutter/material.dart';
@@ -32,23 +33,24 @@ class MyOrders extends StatelessWidget {
           if (state is ProfileSuccessState) {
             if (cubit.orders!.isNotEmpty) {
               return SingleChildScrollView(
-                child: Expanded(
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, i) {
-                      return CustomOrderWidget(
-                        orderDate: orders?[i].orderDate ?? "",
-                        orderTitle: orders?[i].orderCode ?? "",
-                        total: orders?[i].total ?? "",
-                      );
-                    },
-                    itemCount: orders?.length,
-                  ),
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, i) {
+                    return CustomOrderWidget(
+                      orderDate: orders?[i].orderDate ?? "",
+                      orderTitle: orders?[i].orderCode ?? "",
+                      total: orders?[i].total ?? "",
+                    );
+                  },
+                  itemCount: orders?.length,
                 ),
               );
             } else {
-              return Center(child: Text("No Orders yet "));
+              return EmptyListWidget(
+                text: "No Orders yet ",
+                image: AppImages.cartSvg,
+              );
             }
           } else if (state is ProfileLoadingState) {
             return LottieBuilder.asset(AppImages.loadingIndicator);
